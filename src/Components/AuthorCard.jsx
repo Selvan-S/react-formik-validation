@@ -23,7 +23,7 @@ function AuthorCard({ val, index, authorRecords, setAuthorRecords }) {
           {val.name}
         </h3>
       </div>
-      <div className="border-t border-gray-200 py-4">
+      <div className="border-t border-gray-200 py-4 max-md:px-4">
         <dl className="sm:divide-y sm:divide-gray-200">
           <div className="py-2 sm:py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4 items-center">
             <dt className="text-sm font-medium text-gray-500">Birth Date</dt>
