@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthorCard from "./AuthorCard";
 
-function RenderAuthors({ authorRecords, setAuthorRecords }) {
+function RenderAuthors({
+  authorRecords,
+  setAuthorRecords,
+  booksData,
+  setBooksData,
+}) {
   const navigate = useNavigate();
   return (
     <div className="w-screen bg-gray-100 pt-8 px-4 pb-8">
@@ -28,6 +33,8 @@ function RenderAuthors({ authorRecords, setAuthorRecords }) {
               index={inx}
               authorRecords={authorRecords}
               setAuthorRecords={setAuthorRecords}
+              setBooksData={setBooksData}
+              booksData={booksData}
             />
           );
         })}

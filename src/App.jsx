@@ -17,7 +17,8 @@ function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        setBooksData(data);
+        const filter = data.filter((item) => item.id != "0");
+        setBooksData(filter);
       })
       .catch((err) => console.log(err));
     fetch(`${import.meta.env.VITE_AUTHOR_API_URL}/author`, {
@@ -102,6 +103,8 @@ function App() {
             <RenderAuthors
               authorRecords={authorRecords}
               setAuthorRecords={setAuthorRecords}
+              setBooksData={setBooksData}
+              booksData={booksData}
             />
           }
         />

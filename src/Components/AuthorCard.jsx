@@ -2,17 +2,42 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { formatDate } from "../utils/formatDate";
 
-function AuthorCard({ val, index, authorRecords, setAuthorRecords }) {
+function AuthorCard({
+  val,
+  index,
+  authorRecords,
+  setAuthorRecords,
+  booksData,
+  setBooksData,
+}) {
   const [isDisable, setIsDisable] = useState(false);
-  function deleteAuthor(authorId) {
+  function deleteAuthor(authorId, bookId) {
     setIsDisable(true);
-    fetch(`${import.meta.env.VITE_AUTHOR_API_URL}/books/0/author/${authorId}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `${
+        import.meta.env.VITE_AUTHOR_API_URL
+      }/books/${bookId}/author/${authorId}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         const filter = authorRecords.filter((item) => item.id != data.id);
         setAuthorRecords([...filter]);
+        const findBook = booksData.find((item) => item.id == bookId);
+        const bookIndex = booksData.indexOf(findBook);
+        if (bookId != "0") {
+          console.log("hi");
+          booksData[bookIndex].author[0] = {
+            name: "",
+            id: "",
+            birthDate: "",
+            biography: "",
+            bookId: "",
+          };
+          setBooksData([...booksData]);
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -76,8 +101,8 @@ function AuthorCard({ val, index, authorRecords, setAuthorRecords }) {
 
           <button
             type="button"
-            className="font-bold items-center flex gap-1 text-gray-900 focus:ring-gray-200 hover:bg-gray-100 bg-white border-gray-300 border text-xs focus:outline-none focus:ring-4 rounded-lg py-2 px-2 uppercase disabled:bg-red-900"
-            onClick={() => deleteAuthor(val.id)}
+            className="font-bold items-center flex gap-1 text-gray-900 focus:ring-gray-200 hover:bg-gray-100 bg-white border-gray-300 border text-xs focus:outline-none focus:ring-4 rounded-lg py-2 px-2 uppercase disabled:bg-gray-200 dis"
+            onClick={() => deleteAuthor(val.id, val.bookId)}
             disabled={isDisable}
           >
             <svg
