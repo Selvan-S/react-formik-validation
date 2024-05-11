@@ -28,7 +28,6 @@ function AuthorCard({
         const findBook = booksData.find((item) => item.id == bookId);
         const bookIndex = booksData.indexOf(findBook);
         if (bookId != "0") {
-          console.log("hi");
           booksData[bookIndex].author[0] = {
             name: "",
             id: "",
