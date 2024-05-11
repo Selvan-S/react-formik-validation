@@ -1,39 +1,31 @@
-import React from "react";
-import BookCard from "./BookCard";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthorCard from "./AuthorCard";
 
-function RenderBooks({
-  booksData,
-  setBooksData,
-  authorRecords,
-  setAuthorRecords,
-}) {
+function RenderAuthors({ authorRecords, setAuthorRecords }) {
   const navigate = useNavigate();
-
   return (
     <div className="w-screen bg-gray-100 pt-8 px-4 pb-8">
       <div className="w-full flex justify-center">
         <button
           className="uppercase bg-sky-800 px-4 py-1 rounded-lg text-gray-50 font-bold text-lg mb-8"
-          onClick={() => navigate("/add/book")}
+          onClick={() => navigate("/add/records/author")}
         >
-          <span className="text-2xl">&#x2b;</span> Add Book
+          <span className="text-2xl">&#x2b;</span> Add Author
         </button>
       </div>
-      {booksData.length == 0 && (
+      {authorRecords.length == 0 && (
         <div className="text-blue-600 w-full mx-auto text-2xl mt-4 text-center">
-          Please create a new book or check your Internet!
+          Please create a new author or please check your internet!
         </div>
       )}
       <div className="grid grid-cols-1 md:grid-cols-3 max-w-5xl mx-auto gap-4">
-        {booksData.map((val, inx) => {
+        {authorRecords.map((val, inx) => {
           return (
-            <BookCard
+            <AuthorCard
               key={inx}
               val={val}
               index={inx}
-              setBooksData={setBooksData}
-              booksData={booksData}
               authorRecords={authorRecords}
               setAuthorRecords={setAuthorRecords}
             />
@@ -44,4 +36,4 @@ function RenderBooks({
   );
 }
 
-export default RenderBooks;
+export default RenderAuthors;

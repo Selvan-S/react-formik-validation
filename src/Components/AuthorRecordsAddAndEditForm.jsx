@@ -3,18 +3,13 @@ import React, { useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { authorSchema } from "../Schema/schema";
 
-function AddAuthorAndEditForm({
-  booksData,
-  setBooksData,
-  authorRecords,
-  setAuthorRecords,
-}) {
-  const { id, authorId } = useParams();
+function AuthorRecordsAddAndEditForm({ authorRecords, setAuthorRecords }) {
+  const { authorId } = useParams();
   const navigate = useNavigate();
 
-  let initialBookFormState = {
+  let initialAuthorFormState = {
     id: authorId,
-    bookId: id,
+    bookId: "0",
     name: "",
     birthDate: "",
     biography: "",
@@ -22,13 +17,13 @@ function AddAuthorAndEditForm({
   let index;
   let editing = false;
   let { state } = useLocation();
-  if (state && state.currentbooksData) {
+  if (state && state.currentAuthorData) {
     editing = true;
-    initialBookFormState = state.currentbooksData;
+    initialAuthorFormState = state.currentAuthorData;
     index = state.index;
     editing = state.editing;
   }
-  const [bookAuthorData, setBookAuthorData] = useState(initialBookFormState);
+  const [authorData, setAuthorData] = useState(initialAuthorFormState);
 
   const [isDisable, setIsDisable] = useState(false);
   const [alert, setAlert] = useState(false);
@@ -37,23 +32,22 @@ function AddAuthorAndEditForm({
     useFormik({
       initialValues: {
         id: authorId,
-        bookId: id,
-        name: bookAuthorData.name,
-        birthDate: bookAuthorData.birthDate,
-        biography: bookAuthorData.biography,
+        bookId: authorData.bookId,
+        name: authorData.name,
+        birthDate: authorData.birthDate,
+        biography: authorData.biography,
       },
       validationSchema: authorSchema,
       onSubmit: (newAuthorData) => {
         updateAuthor(newAuthorData);
         setIsDisable(true);
-        navigate("/");
+        navigate("/records/authors");
       },
     });
 
   function updateAuthor(newAuthorData) {
     if (editing) {
-      newAuthorData.id = id;
-      fetch(`${import.meta.env.VITE_API_URL}/${id}/author/${authorId}`, {
+      fetch(`${import.meta.env.VITE_AUTHOR_API_URL}/author/${authorId}`, {
         method: "PUT",
         body: JSON.stringify(newAuthorData),
         headers: {
@@ -64,22 +58,15 @@ function AddAuthorAndEditForm({
           return res.json();
         })
         .then((data) => {
-          booksData[index].author[0] = data;
-          const authorFind = authorRecords.find((item, index) => {
-            if (item.id == data.id) {
-              return index;
-            }
-          });
-          const authorIndex = authorRecords.indexOf(authorFind);
-          authorRecords[authorIndex] = data;
+          authorRecords[index] = data;
           setAuthorRecords([...authorRecords]);
-          setBooksData([...booksData]);
+          navigate("/records/authors");
         })
         .catch((e) => {
           console.log(e);
         });
     } else {
-      fetch(`${import.meta.env.VITE_API_URL}/${id}/author`, {
+      fetch(`${import.meta.env.VITE_AUTHOR_API_URL}/author`, {
         method: "POST",
         body: JSON.stringify(newAuthorData),
         headers: {
@@ -90,10 +77,8 @@ function AddAuthorAndEditForm({
           return res.json();
         })
         .then((data) => {
-          booksData[index].author[0] = data;
-          setBooksData([...booksData]);
           setAuthorRecords([...authorRecords, data]);
-          navigate("/");
+          navigate("/records/authors");
         })
         .catch((e) => {
           console.log(e);
@@ -200,4 +185,4 @@ function AddAuthorAndEditForm({
   );
 }
 
-export default AddAuthorAndEditForm;
+export default AuthorRecordsAddAndEditForm;
