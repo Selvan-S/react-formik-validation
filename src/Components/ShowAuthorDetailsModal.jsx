@@ -9,9 +9,10 @@ function ShowAuthorDetailsModal({
   bookIndex,
   booksData,
   index,
+  authorRecords,
+  setAuthorRecords,
 }) {
   const [isDisable, setIsDisable] = useState(false);
-
   function deleteAuthor(id) {
     setIsDisable(true);
     fetch(
@@ -22,6 +23,8 @@ function ShowAuthorDetailsModal({
     )
       .then((res) => res.json())
       .then((data) => {
+        const authorFilter = authorRecords.filter((item) => item.id != data.id);
+        setAuthorRecords([...authorFilter]);
         booksData[index].author[0] = {
           name: "",
           id: "",
@@ -36,7 +39,7 @@ function ShowAuthorDetailsModal({
 
   return (
     <div
-      className="fixed bg-black bg-opacity-60 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
+      className="fixed bg-black bg-opacity-25 top-0 left-0 right-0 bottom-0 z-50 flex justify-center items-center"
       onClick={onClose}
     >
       <div
@@ -47,12 +50,12 @@ function ShowAuthorDetailsModal({
           Author Details
         </h1>
         <div className="bg-white rounded-lg border shadow-lg m-4">
-          <div className="px-4 py-5 sm:px-6">
+          <div className="px-4 py-4 sm:px-6">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
               {authorData[0].name}
             </h3>
           </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <div className="border-t border-gray-200 px-4 py-4 sm:p-0">
             <dl className="sm:divide-y sm:divide-gray-200">
               <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">
@@ -64,7 +67,7 @@ function ShowAuthorDetailsModal({
               </div>
             </dl>
           </div>
-          <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+          <div className="border-t border-gray-200 px-4 py-4 sm:p-0">
             <dl className="sm:divide-y sm:divide-gray-200">
               <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Biography</dt>

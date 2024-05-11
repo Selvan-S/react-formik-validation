@@ -4,7 +4,14 @@ import { date } from "yup";
 import ShowAuthorDetailsModal from "./ShowAuthorDetailsModal";
 import { formatDate } from "../utils/formatDate";
 
-function BookCard({ val, index, setBooksData, booksData }) {
+function BookCard({
+  val,
+  index,
+  setBooksData,
+  booksData,
+  authorRecords,
+  setAuthorRecords,
+}) {
   const navigate = useNavigate();
 
   const [isDisable, setIsDisable] = useState(false);
@@ -23,16 +30,16 @@ function BookCard({ val, index, setBooksData, booksData }) {
       });
   }
   return (
-    <div className="bg-white overflow-hidden rounded-lg border shadow-lg mx-4 sm:mx-0">
-      <div className="px-4 py-5 sm:px-6">
+    <div className="bg-white overflow-hidden rounded-lg border shadow-lg max-md:mx-4 md:max-w-80">
+      <div className="py-4 px-4">
         <h3 className="text-lg leading-6 font-medium text-gray-900">
           {val.title}
         </h3>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">ISBN: {val.ISBN}</p>
       </div>
-      <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+      <div className="border-t border-gray-200 py-4 max-sm:px-4">
         <dl className="sm:divide-y sm:divide-gray-200">
-          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <div className="py-3 sm:py-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4 items-center">
             <dt className="text-sm font-medium text-gray-500">Author</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
               {(val.author.length == 0 || val.author[0]?.id == "") && (
@@ -131,11 +138,13 @@ function BookCard({ val, index, setBooksData, booksData }) {
                   booksData={booksData}
                   index={index}
                   onClose={() => setShowModal(false)}
+                  authorRecords={authorRecords}
+                  setAuthorRecords={setAuthorRecords}
                 />
               )}
             </dd>
           </div>
-          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <div className="py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-4 items-center">
             <dt className="text-sm font-medium text-gray-500">Publication</dt>
             <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 break-words">
               {formatDate(val.publication)}
