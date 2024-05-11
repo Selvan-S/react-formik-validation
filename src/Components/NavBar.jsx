@@ -6,8 +6,8 @@ export default function NavBar() {
   const [isDark, setIsDark] = useState(false);
 
   return (
-    <nav className={`border-gray-200 px-5 m-0 max-md:pt-4`}>
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+    <nav className={`border-gray-200 px-5 m-0 pt-4`}>
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto max-sm:flex-col max-sm:gap-3">
         <Link
           to={"/"}
           className="flex items-center space-x-3 rtl:space-x-reverse"
